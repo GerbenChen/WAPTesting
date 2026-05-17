@@ -141,33 +141,32 @@ def page(request):
         )
 
         # Screenshot on Failure
-        if test_failed:
+        status = "failed" if test_failed else "success"
+        screenshot_path = (
+            artifact_manager
+            .screenshot_path(
+                f"{request.node.name}_{status}"
+            )
+        )
 
-            screenshot_path = (
-                artifact_manager
-                .screenshot_path(
-                    request.node.name
-                )
+        try:
+
+            page.screenshot(
+                path=screenshot_path,
+                full_page=True
             )
 
-            try:
+            logger.info(
+                f"Screenshot Saved ({status.upper()}): "
+                f"{screenshot_path}"
+            )
 
-                page.screenshot(
-                    path=screenshot_path,
-                    full_page=True
-                )
+        except Exception as exc:
 
-                logger.info(
-                    f"Screenshot Saved: "
-                    f"{screenshot_path}"
-                )
-
-            except Exception as exc:
-
-                logger.error(
-                    f"Screenshot Error: "
-                    f"{exc}"
-                )
+            logger.error(
+                f"Screenshot Error: "
+                f"{exc}"
+            )
 
         # Trace on Failure
         if enable_trace:
