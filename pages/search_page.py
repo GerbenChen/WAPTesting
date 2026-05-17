@@ -39,12 +39,11 @@ class SearchPage(BasePage):
         suggestion.click()
         self.wait(5000)
 
-    def scroll_twice(self):
+    def scroll_multiple(self, times):
 
-        self.scroll_down()
-        self.wait(2000)
-        self.scroll_down()
-        self.wait(2000)
+        for _ in range(times):
+            self.scroll_down()
+            self.wait(2000)
 
     def select_first_streamer(self):
 

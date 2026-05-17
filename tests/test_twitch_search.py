@@ -28,7 +28,7 @@ def test_twitch_streamer_flow(page):
     home_page.click_search()
 
     search_page.search_game(config["search_name"])
-    search_page.scroll_twice()
+    search_page.scroll_multiple(2)
     search_page.select_first_streamer()
 
     streamer_page.handle_popup()
